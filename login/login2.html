@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>登陆界面</title>
+		<link rel="stylesheet" href="login2.css">
+	</head>
+	<body>
+		<div class="container">
+			<!-- 顶部 -->
+			<div class="tonglan">
+				<div class="top-container w">
+					<div class="img">
+						<img src="https://id1.cloud.huawei.com/CAS/static_rss/rss_6/IDMW/common/logos/HUAWEI.svg" alt="">
+					</div>
+					<span><a href="../home/home.html">华为商城</a></span>
+				</div>
+			</div>
+			<!-- 题目 -->
+			<div class="w title">
+				<span>短信验证码登录</span>
+			</div>
+			<!-- 登录模块 -->
+			<div class="login w">
+				<div class="login-left">
+					<div>
+						<img src="../images/code.png" alt="">
+					</div>
+					<p style="color: rgb(102,102,102);">若您使用华为手机，请前往“设置”>“华为帐号”扫码登录。</p>
+				</div>
+				<div class="login-right">
+					<input class="validate" data-reg="^1[3456789]\d{9}$"  type="text" data-msg="* 请输入正确的手机号" placeholder="手机号(+86)">
+					<p></p>
+					<br>
+					<br>
+					<input type="password" placeholder="短信验证码">
+					<br>
+					<button class="btn-ok">获取验证码</button>
+					<button class="btn-loginPassword"><a href="login.html">密码登录</a></button>
+					<br>
+					<button class="btn-login">登录</button>
+					<div class="help">
+						<span><a href="../register/register.html">注册</a></span>丨
+						<span><a href="">忘记密码</a></span>丨
+						<span><a href="">遇到问题</a></span>
+					</div>
+				</div>
+			</div>
+			<!-- 页脚 -->
+			<div class="tonglan footer">
+				<span><a href="">华为账号用户协议</a></span><span>丨</span>
+				<span><a href="">关于华为账号与隐私的声明</a></span><span>丨</span>
+				<span><a href="">常见声明</a></span><span>丨</span>
+				<span><a href="">Cookies</a></span>
+				<p><a href="">华为帐号 版权所有 © 2011-2023</a></p>
+			</div>
+		</div>
+
+		<script>
+			var btn = document.querySelector("button.btn-ok");
+			 btn.onclick = function() {
+			 	// 按钮被点击后让它暂时不能被点击
+			 	// 给button设置disabled
+			 	this.disabled = true;
+			 	// 然后给按钮设置倒计时
+			 	var seconds = 60,
+			 		timer = setInterval(function() {
+			 			// 判断是否到达时间
+			 			if (seconds === 1) {
+			 				clearInterval(timer);
+			 				btn.innerText = "发送验证码";
+			 				btn.disabled = false;
+			 				return;
+			 			}
+			 			btn.innerText = `${--seconds}秒后重新获取`
+			 		}, 1000);
+			 	// 等倒计时时间的到后恢复点击
+			};
+				document.querySelectorAll(".validate").forEach(function(item){
+					item.onblur = function(){
+						var reg = new RegExp(this.dataset.reg);
+						if(!reg.test(this.value)){
+							this.nextElementSibling.innerText = this.dataset.msg;
+							this.classList.remove("valid");
+							document.querySelector(".btn-login").disabled = true;
+						} else {
+							this.nextElementSibling.innerText = "";
+							this.classList.add("valid");
+							document.querySelector(".btn-login").disabled = document.querySelectorAll("validate:not(.valid)").length > 0;
+						}
+					};
+				});
+		</script>
+	</body>
+</html>
